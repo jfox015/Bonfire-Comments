@@ -32,12 +32,11 @@ class Migration_Install_comments extends Migration {
 		$this->dbforge->add_field("`created_on` int(11) NOT NULL DEFAULT '0'");
 		$this->dbforge->add_field("`created_by` int(11) NOT NULL DEFAULT '0'");
 		$this->dbforge->add_field("`modified_on` int(11) NOT NULL DEFAULT '0'");
+		$this->dbforge->add_field("`anonymous_email` varchar(255) NOT NULL DEFAULT ''");
 		$this->dbforge->add_field("`deleted` int(11) NOT NULL DEFAULT '0'");
 		$this->dbforge->add_key('id', true);
 		$this->dbforge->create_table('comments');
 		
-		$this->db->query("INSERT INTO {$prefix}comments VALUES(0, 1,'This is a default comment. Do with it as you will.',".time().",1,".time().",0)");
-       
 	}
 	
 	//--------------------------------------------------------------------

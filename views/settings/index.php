@@ -6,18 +6,18 @@
 
 <div class="admin-box">
 
-    <h3>[Module] Settings</h3>
+    <h3>Comments Settings</h3>
 
     <?php echo form_open($this->uri->uri_string(), 'class="form-horizontal"'); ?>
 
     <fieldset>
         <legend><?php echo lang('mod_settings_title'); ?></legend>
 	
-		<div class="control-group <?php echo form_error('[field_name]') ? 'error' : '' ?>">
-			<label class="control-label" for="[field_name]"><?php echo lang('mod_field_name'); ?></label>
+		<div class="control-group <?php echo form_error('anonymous_comments') ? 'error' : '' ?>">
+			<label class="control-label" for="anonymous_comments"><?php echo lang('mod_field_name'); ?></label>
 			<div class="controls">
-				 <input name="[field_name]" id="[field_name]" />
-				<?php if (form_error('[field_name]')) echo '<span class="help-inline">'. form_error('[field_name]') .'</span>'; ?>
+				<input type="checkbox" name="anonymous_comments" id="anonymous_comments" value="1" <?php echo $settings['comments.anonymous_comments'] == 1 ? 'checked="checked"' : set_checkbox('comments.anonymous_comments', 1); ?> />
+				<?php if (form_error('anonymous_comments')) echo '<span class="help-inline">'. form_error('anonymous_comments') .'</span>'; ?>
 			</div>
 		</div>
 	
@@ -29,13 +29,4 @@
 	
 	<?php echo form_close(); ?>
 </div>
-
-<script type="text/javascript">
-    head.ready(function(){
-        $(document).ready(function() {
-
-        });
-    });
-
-</script>
 

@@ -8,5 +8,4 @@ $lang['mod_unauthorized']		= 'Unauthorized. Sorry you do not have the appropriat
 
 $lang['us_no_comments']			= 'No comments were found.';
 $lang['us_add_comment']			= 'Add comments';
-
-
+$lang['cm_anonymous_comments']	= 'Allow anonymous comments';

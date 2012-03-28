@@ -5,14 +5,16 @@ A module for adding comments threads to various types of Bonfire content.
 ## Current Features
 
 - Content agnostic data design
-- Use modules::run() to call comment stream and form.
+- Use modules::run() to call comment thread and form.
+- AJAX submission and updates
+- Settings options
+- Twitter Boostrap CSS amd JS integration (Collapsable)
 
 ## Planned Features
 
-- AJAX submission and stream updates
-- Settings
 - Gravatar support
-- Twitter Boostrap JS integration (Collapsable)
+- Replay parent Chaining
+- Nested Comment Replies
 
 ## Keep Current on the Mod
 

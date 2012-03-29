@@ -65,9 +65,10 @@ class Comments extends Front_Controller {
 		
 		if ($this->input->post('thread_id')) 
 		{
-			$data = array('thread_id'	=> $this->input->post('thread_id'),
-						  'comment'	 	=> $this->input->post('comment_txt'),
-						  'created_by'	 => $this->input->post('author_id')
+			$data = array('thread_id'		=> $this->input->post('thread_id'),
+						  'comment'	 		=> $this->input->post('comment_txt'),
+						  'created_by'	 	=> ($this->input->post('author_id')) ? $this->input->post('author_id') : 0,
+						  'anonymous_email' => ($this->input->post('anonymous_email')) ? $this->input->post('anonymous_email') : ''
 			);
 			$this->comments_model->insert($data);
 			
@@ -224,7 +225,18 @@ class Comments extends Front_Controller {
 		}
 		if (isset($thread) && count($thread)) {
 			foreach($thread as $comment) {
-				$comment->creator = $this->author_model->find_author($comment->created_by);
+				if (isset($comment->created_by) && $comment->created_by != 0)
+				{
+					$comment->creator = $this->author_model->find_author($comment->created_by);
+				}
+				else (isset($comment->anonymous_email) && !empty($comment->anonymous_email))
+				{
+					$comment->creator = $comment->anonymous_email);
+				}
+				else
+				{
+					$comment->creator = lang('submitted_by_unknown');
+				}
 				$comment->created = date($this->config->item('log_date_format'),$comment->created_on);
 			}
 		}

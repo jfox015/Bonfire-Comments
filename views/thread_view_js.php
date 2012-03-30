@@ -1,10 +1,9 @@
-﻿<script type="text/javascript">
-	$(document).ready(function(){
-		$('#reload_comments').click(function(e) {
-			e.preventDefault();
-			load_comments();
-		});
+﻿
+	$('#reload_comments').click(function(e) {
+		e.preventDefault();
+		load_comments();
 	});
+
 	function load_comments() {
 		var statusClass = '', statusMess = ''; 
 		$.getJSON('<?php echo site_url('/content/comments/ajax_get/'.$thread_id); ?>', function(data, status){
@@ -65,4 +64,3 @@
 	function fadeStatus() {
 		$('div#ajaxStatusBox').fadeOut("normal",function() { clearTimeout(fader); $('div#ajaxStatusBox').hide(); });
 	}
-</script>

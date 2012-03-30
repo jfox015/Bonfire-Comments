@@ -152,7 +152,7 @@ class Comments extends Front_Controller {
 		}
 		$thread = $this->resolve_thread_data($this->comments_model->find_all_by('thread_id',$thread_id));
 		$html_out = $this->load->view('thread_view',array('comments'=>$thread), true);
-		$html_out .= $this->load->view('thread_view_js',array('thread_id'=>$thread_id), true);
+		Assets::add_js($this->load->view('thread_view_js',array('thread_id'=>$thread_id), true),'inline');
 		return $html_out;
 	}
 
@@ -191,7 +191,8 @@ class Comments extends Front_Controller {
 		if ($logged_in || (!$logged_in && $anonymous == 'true'))
 		{
 			$html_out .= $this->load->view('form',array('anonymous'=>$anonymous), true);
-			$html_out .= $this->load->view('form_js',array('thread_id'=>$thread_id,'user_id'=>$user_id, 'anonymous'=>$anonymous), true);
+			Assets::add_js($this->load->view('form_js',array('thread_id'=>$thread_id,'user_id'=>$user_id, 'anonymous'=>$anonymous), true),'inline');
+			//$html_out .= $this->load->view('form_js',array('thread_id'=>$thread_id,'user_id'=>$user_id, 'anonymous'=>$anonymous), true);
 		}
 		return $html_out;
 	}
@@ -229,9 +230,9 @@ class Comments extends Front_Controller {
 				{
 					$comment->creator = $this->author_model->find_author($comment->created_by);
 				}
-				else (isset($comment->anonymous_email) && !empty($comment->anonymous_email))
+				else if (isset($comment->anonymous_email) && !empty($comment->anonymous_email))
 				{
-					$comment->creator = $comment->anonymous_email);
+					$comment->creator = $comment->anonymous_email;
 				}
 				else
 				{

@@ -3,7 +3,7 @@
 	<div class="control-group">
 		 <label class="control-label"><?php echo lang('us_add_comment') ?></label>
 		<div class="controls">
-			<?php echo form_textarea( array( 'name' => 'comment_txt', 'id' => 'comment_txt', 'rows' => '5', 'class'=>'span6','cols' => '80' ));?>
+			<?php echo form_textarea( array( 'name' => 'comment_txt', 'id' => 'comment_txt', 'rows' => '5', 'class'=>'span7','cols' => '80' ));?>
 			<span class="help-inline"></span>
 		</div>
 	</div>

@@ -1,6 +1,5 @@
-﻿<script type="text/javascript">
+﻿
 	var anonymous = '<?php echo($anonymous); ?>';
-	$(document).ready(function(){
 		$('#submit_comment').click(function(e) {
 			e.preventDefault();
 			if ($('#comment_txt').val == '') {
@@ -78,5 +77,3 @@
 				}
 			}
 		});
-	});
-</script>

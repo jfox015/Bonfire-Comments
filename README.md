@@ -10,10 +10,9 @@ A module for adding comments threads to various types of Bonfire content.
 - Settings options
 - Twitter Boostrap CSS amd JS integration (Collapsable)
 
-## Planned Features
+## Possible Future Features
 
 - Gravatar support
-- Replay parent Chaining
 - Nested Comment Replies
 
 ## Keep Current on the Mod

@@ -33,8 +33,8 @@ class Comments_model extends BF_Model
 	protected $key			= 'id';
 	protected $soft_deletes	= true;
 	protected $date_format	= 'int';
-	protected $set_created	= false;
-	protected $set_modified = false;
+	protected $set_created	= true;
+	protected $set_modified = true;
 	
 	/*-----------------------------------------------
 	/	PUBLIC FUNCTIONS

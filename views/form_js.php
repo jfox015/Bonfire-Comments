@@ -39,8 +39,8 @@
 					$('div#waitload').css('display','block');
 
 					// POST comment and get updated comment thread
-					var dataObj = '{"thread_id":<?php echo($thread_id); ?>, "author_id": <?php echo($user_id); ?>, "coment_txt":"' +  $("#comment_txt").val() +'"}';
-					$.post("<?php echo site_url('/content/comments/ajax_add'); ?>", dataObj, function(data, status)
+					var dataObj = '{"thread_id":<?php echo($thread_id); ?>, "author_id": <?php echo($user_id); ?>, "comment_txt":"' +  escape($("#comment_txt").val()) +'"}';
+					$.post("<?php echo site_url('/comments/ajax_add'); ?>", {'items':dataObj}, function(data, status)
 					{
 						switch (status)
 						{
@@ -55,7 +55,7 @@
 								{
 									statusClass = 'alert-success';
 									statusMess = 'Your comment was added successfully.';
-									drawComments(data);
+									_draw_comments(data);
 								}
 								break;
 							case 'timeout':
@@ -68,7 +68,7 @@
 						}
 						$('div#ajaxStatus').addClass(statusClass);
 						$('div#ajaxStatus').html(statusMess);
-						$('div#ajaxStatusBox').fadeIn("slow",function() { setTimeout('fadeStatus()',5000); });
+						$('div#ajaxStatusBox').fadeIn("slow",function() { setTimeout('fadeStatus',5000); });
 
 						// SHOW ELEMS, but not the form
 						$('div#comments').css('display','block');

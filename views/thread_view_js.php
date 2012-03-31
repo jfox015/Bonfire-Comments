@@ -6,7 +6,7 @@
 
 	function load_comments() {
 		var statusClass = '', statusMess = ''; 
-		$.getJSON('<?php echo site_url('/content/comments/ajax_get/'.$thread_id); ?>', function(data, status){
+		$.getJSON('<?php echo site_url('/comments/ajax_get/'.$thread_id); ?>', function(data, status){
 			switch (status) 
 			{
 				case 'success':
@@ -20,7 +20,7 @@
 					{
 						statusClass = 'alert-success';
 						statusMess = 'Your comment was added successfully.';
-						drawComments(data);
+						_draw_comments(data);
 					}
 					break;
 				case 'timeout':
@@ -40,7 +40,7 @@
 			$('div#waitload').css('display','none');
 		}, 'json');	
 	}
-	function drawComments(data) {
+	function _draw_comments(data) {
 		if (data.result.items.length > 0) {
 			$('div#comments').empty();
 			var commentStr = '',count = 1;

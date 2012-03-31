@@ -63,16 +63,17 @@ class Comments extends Front_Controller {
 		$error = false;
 		$json_out = array("result"=>array(),"code"=>200,"status"=>"OK");
 		
-		if ($this->input->post('thread_id')) 
+		if ($this->input->post('items'))
 		{
-			$data = array('thread_id'		=> $this->input->post('thread_id'),
-						  'comment'	 		=> $this->input->post('comment_txt'),
-						  'created_by'	 	=> ($this->input->post('author_id')) ? $this->input->post('author_id') : 0,
-						  'anonymous_email' => ($this->input->post('anonymous_email')) ? $this->input->post('anonymous_email') : ''
+			$items = json_decode($this->input->post('items'));
+			$data = array('thread_id'		=> $items->thread_id,
+						  'comment'	 		=> (isset($items->comment_txt)) ? html_entity_decode(urldecode($items->comment_txt)) : '',
+						  'created_by'	 	=> (isset($items->author_id)) ? $items->author_id : 0,
+						  'anonymous_email' => (isset($items->anonymous_email)) ? $items->anonymous_email : ''
 			);
 			$this->comments_model->insert($data);
 			
-			$json_out['result']['items'] = $this->resolve_thread_data($this->comments_model->find_all_by('thread_id',$this->input->post('thread_id')));
+			$json_out['result']['items'] = $this->resolve_thread_data($this->comments_model->find_all_by('thread_id',$items->thread_id));
 		}
 		else
 		{
@@ -108,7 +109,7 @@ class Comments extends Front_Controller {
 		$error = false;
 		$json_out = array("result"=>array(),"code"=>200,"status"=>"OK");
 		
-		$thread_id = $this->uri->segement(4);
+		$thread_id = $this->uri->segment(3);
 		
 		if (isset($thread_id) && !empty($thread_id)) 
 		{

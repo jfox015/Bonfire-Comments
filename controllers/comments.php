@@ -78,7 +78,7 @@ class Comments extends Front_Controller {
 		else
 		{
 			$error = true;
-			$status = "Thread ID was missing.";
+			$status = "Post Data was missing.";
 		}
 		if ($error) 
 		{ 

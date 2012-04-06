@@ -129,6 +129,31 @@ class Comments extends Front_Controller {
 		$this->output->set_header('Content-type: application/json'); 
 		$this->output->set_output(json_encode($json_out));
 	}
+	
+	
+	//--------------------------------------------------------------------
+
+	/*
+		Method:
+			purge_thread() 
+			
+		Removes a thread and comments from the db
+		
+		Parameters:
+			$thread_id	 - Comment thread id
+			
+		Return:
+			TRUE on success, FALSE on error
+			
+	*/
+	public function purge_thread($thread_id = false) 
+	{
+		if ($thread_id === false) 
+		{
+			return false;
+		}
+		$this->comments_model->delete($thread_id);
+	}
 	//--------------------------------------------------------------------
 
 	/*

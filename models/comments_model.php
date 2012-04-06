@@ -39,6 +39,18 @@ class Comments_model extends BF_Model
 	/*-----------------------------------------------
 	/	PUBLIC FUNCTIONS
 	/----------------------------------------------*/
+	
+	public function delete($thread_id = false) 
+	{
+		if ($threadId === false)
+		{
+			$this->error = "No thread ID was received.";
+			return false;
+		}
+		$this->db->where('id',$thread_id)->delete('comments_threads');
+		return parent::delete($thread_id);
+	}
+	
 	public function new_comments_thread() 
 	{
 		$this->db->insert('comments_threads',array('created_on'=>time()));

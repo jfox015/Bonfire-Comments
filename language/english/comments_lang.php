@@ -10,3 +10,6 @@ $lang['us_no_comments']			= 'No comments were found.';
 $lang['us_add_comment']			= 'Add comments';
 $lang['cm_anonymous_comments']	= 'Allow anonymous comments';
 $lang['submitted_by_unknown']	= 'Unknown Submitter';
+$lang['cm_anonymous_email']		= 'E-mail Address (required)';
+$lang['cm_identifier_err']		= 'You must either be logged in or provide an email address to comment.';
+$lang['cm_email_err']			= 'You must provide a valid email address to comment.';

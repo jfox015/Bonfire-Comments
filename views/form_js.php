@@ -1,5 +1,5 @@
 ﻿
-	var anonymous = '<?php echo($anonymous); ?>';
+		var anonymous = '<?php echo($anonymous); ?>';
 		$('#submit_comment').click(function(e) {
 			e.preventDefault();
 			if ($('#comment_txt').val == '') {

@@ -36,6 +36,7 @@ class Settings extends Admin_Controller {
         {
             $this->load->model('activities/Activity_model', 'activity_model', true);
         }
+		$this->lang->load('comments');
 
 	}
 	

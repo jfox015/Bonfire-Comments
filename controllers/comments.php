@@ -71,8 +71,26 @@ class Comments extends Front_Controller {
 						  'created_by'	 	=> (isset($items->author_id)) ? $items->author_id : 0,
 						  'anonymous_email' => (isset($items->anonymous_email)) ? $items->anonymous_email : ''
 			);
-			$this->comments_model->insert($data);
-			
+			if ($data['created_by'] == 0 && empty($data['anonymous_email']))
+			{
+				$error = true;
+				$status = lang('cm_identifier_err');
+			}
+			else
+			{
+				if (!empty($data['anonymous_email'])) {
+					$this->load->helper('email');
+					if (!valid_email($data['anonymous_email']))
+					{
+						$error = true;
+						$status = lang('cm_email_err');
+					}
+				}
+				if (!$error)
+				{
+					$this->comments_model->insert($data);
+				}
+			}
 			$json_out['result']['items'] = $this->resolve_thread_data($this->comments_model->find_all_by('thread_id',$items->thread_id));
 		}
 		else
@@ -207,12 +225,12 @@ class Comments extends Front_Controller {
 		$html_out = $this->thread_view($thread_id);
 		
 		$settings = $this->settings_model->select('name,value')->find_all_by('module', 'comments');
-		$anonymous = ($settings['comments.anonymous_comments'] == 1) ? 'true' : 'false';
 		// acessing userdata cookie
 		$cookie = unserialize($this->input->cookie($this->config->item('sess_cookie_name')));
 		$logged_in = isset ($cookie['logged_in']);
 		unset ($cookie);
 		$user_id = (isset($this->current_user)) ? $this->current_user->id : 0;
+		$anonymous = (!$logged_in && $settings['comments.anonymous_comments'] == 1) ? 'true' : 'false';
 		
 		if ($logged_in || (!$logged_in && $anonymous == 'true'))
 		{
@@ -250,7 +268,7 @@ class Comments extends Front_Controller {
 		{
 			$this->load->model('news/author_model');
 		}
-		if (isset($thread) && count($thread)) {
+		if (isset($thread) && is_array($thread) && count($thread)) {
 			foreach($thread as $comment) {
 				if (isset($comment->created_by) && $comment->created_by != 0)
 				{

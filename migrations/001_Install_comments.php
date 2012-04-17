@@ -37,6 +37,11 @@ class Migration_Install_comments extends Migration {
 		$this->dbforge->add_key('id', true);
 		$this->dbforge->create_table('comments');
 		
+		$default_settings = "
+			INSERT INTO `{$prefix}settings` (`name`, `module`, `value`) VALUES
+			 ('comments.anonymous_comments', 'comments', '1');
+		";
+        $this->db->query($default_settings);
 	}
 	
 	//--------------------------------------------------------------------
@@ -56,6 +61,8 @@ class Migration_Install_comments extends Migration {
 		
 		$this->dbforge->drop_table('comments');
 		$this->dbforge->drop_table('comments_threads');
+		$this->db->query("DELETE FROM {$prefix}settings WHERE (module = 'comments')");
+		
 
 	}
 	

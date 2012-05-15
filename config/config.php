@@ -4,5 +4,5 @@ $config['module_config'] = array(
 	'description'	=> 'A module for adding coments threads to any type of content',
 	'author'		=> 'Jeff Fox',
 	'name'			=> 'Comments',
-	'version'		=> '1.0'
+	'version'		=> '0.2'
 );

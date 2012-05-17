@@ -42,7 +42,7 @@ class Comments_model extends BF_Model
 	
 	public function delete($thread_id = false) 
 	{
-		if ($threadId === false)
+		if ($thread_id === false)
 		{
 			$this->error = "No thread ID was received.";
 			return false;
@@ -51,9 +51,41 @@ class Comments_model extends BF_Model
 		return parent::delete($thread_id);
 	}
 	
-	public function new_comments_thread() 
+	public function get_comment_count($thread_id = false) 
 	{
-		$this->db->insert('comments_threads',array('created_on'=>time()));
+		if ($thread_id === false)
+		{
+			$this->error = "No thread ID was received.";
+			return false;
+		}
+		return $this->db->where('id',$thread_id)->count_all_results('comments');
+	}
+
+    public function modules_with_comments()
+    {
+        $modules = array();
+        $this->db->select('module')->like('name','comments_enabled','before');
+        $query = $this->db->get('settings');
+        if ($query->num_rows() > 0)
+        {
+            foreach($query->result() as $row)
+            {
+                array_push($modules,$row->module);
+            }
+        }
+        $query->free_result();
+        return $modules;
+    }
+
+	public function new_comments_thread($module_name = false)
+	{
+        if ($module_name === false)
+        {
+            $this->error = "A module name is required to register a new comment thread.";
+            return false;
+        }
+
+        $this->db->insert('comments_threads',array('created_on'=>time(),'module'=>$module_name));
 		return $this->db->insert_id();
 	}
 	/*-----------------------------------------------

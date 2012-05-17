@@ -69,7 +69,8 @@ class Comments extends Front_Controller {
 			$data = array('thread_id'		=> $items->thread_id,
 						  'comment'	 		=> (isset($items->comment_txt)) ? html_entity_decode(urldecode($items->comment_txt)) : '',
 						  'created_by'	 	=> (isset($items->author_id)) ? $items->author_id : 0,
-						  'anonymous_email' => (isset($items->anonymous_email)) ? $items->anonymous_email : ''
+						  'anonymous_email' => (isset($items->anonymous_email)) ? $items->anonymous_email : '',
+						  'status_id' 		=> 1
 			);
 			if ($data['created_by'] == 0 && empty($data['anonymous_email']))
 			{
@@ -85,6 +86,12 @@ class Comments extends Front_Controller {
 						$error = true;
 						$status = lang('cm_email_err');
 					}
+				}
+				// EDIT - 0.2 - Check if comments require approval and if not, auto approve it
+				$settings = $this->settings_model->select('name,value')->find_all_by('module', 'comments');
+				if (!isset($settings['comments.require_approval']) || (isset($settings['comments.require_approval']) && $settings['comments.require_approval'] == 0))
+				{
+					$data['status_id'] = 2;
 				}
 				if (!$error)
 				{
@@ -148,20 +155,15 @@ class Comments extends Front_Controller {
 		$this->output->set_output(json_encode($json_out));
 	}
 	
-	
 	//--------------------------------------------------------------------
 
-	/*
-		Method:
-			purge_thread() 
+	/**
+		purge_thread().
 			
-		Removes a thread and comments from the db
+		Removes a thread and comments from the db.
 		
-		Parameters:
-			$thread_id	 - Comment thread id
-			
-		Return:
-			TRUE on success, FALSE on error
+		@param	$thread_id	int		Comment thread id
+		@return				boolean	TRUE on success, FALSE on error
 			
 	*/
 	public function purge_thread($thread_id = false) 
@@ -172,6 +174,27 @@ class Comments extends Front_Controller {
 		}
 		$this->comments_model->delete($thread_id);
 	}
+		
+	//--------------------------------------------------------------------
+
+	/**
+		count_comments().
+			
+		Retusn a count of the number of comments for the passed thread_id.
+		
+		@param	$thread_id	int		Comment thread id
+		@return				boolean	TRUE on success, FALSE on error
+			
+	*/
+	public function count_comments($thread_id = false) 
+	{
+		if ($thread_id === false) 
+		{
+			return false;
+		}
+		return $this->comments_model->get_comment_count($thread_id);
+	}
+	
 	//--------------------------------------------------------------------
 
 	/*
@@ -194,6 +217,7 @@ class Comments extends Front_Controller {
 		{
 			return false;
 		}
+		$this->comments_model->where('status_id', 2); // filter only approved
 		$thread = $this->resolve_thread_data($this->comments_model->find_all_by('thread_id',$thread_id));
 		$html_out = $this->load->view('thread_view',array('comments'=>$thread), true);
 		Assets::add_js($this->load->view('thread_view_js',array('thread_id'=>$thread_id), true),'inline');

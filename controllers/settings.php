@@ -67,7 +67,21 @@ class Settings extends Admin_Controller {
         // Read our current settings
         $settings = $this->settings_model->select('name,value')->find_all_by('module', 'comments');
 		Template::set('settings', $settings);
-
+		if (!isset($this->role_model)) 
+		{
+			$this->load->model('roles/role_model');
+		}
+		$roles = array();
+		$tmpRoles = $this->role_model->select('role_id, role_name, default')->where('deleted', 0)->find_all();
+		if (isset($tmpRoles) && is_array($tmpRoles) && count($tmpRoles))
+		{
+			foreach($tmpRoles as $role) 
+			{
+				$roles = $roles + array($role->role_id => $role->role_name);
+			}
+		}
+		Template::set('roles',$roles);
+		
         Template::set('toolbar_title', lang('mod_settings_title'));
         Template::set_view('comments/settings/index');
         Template::render();

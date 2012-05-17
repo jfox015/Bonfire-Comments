@@ -1,3 +1,4 @@
+<?php if (!function_exists('form_textarea')) : $this->load->helper('form'); endif ?>
 <fieldset>
 		<!-- Add Comment -->
 	<div class="control-group">

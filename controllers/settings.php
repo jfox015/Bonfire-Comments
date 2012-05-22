@@ -29,8 +29,8 @@ class Settings extends Admin_Controller {
 	public function __construct() 
 	{
 		parent::__construct();
-		
-		$this->auth->restrict('Site.Settings.View');
+
+        $this->auth->restrict('Comments.Settings.View');
 
         if (!class_exists('Activity_model'))
         {

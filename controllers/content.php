@@ -30,15 +30,16 @@ class Content extends Admin_Controller {
 		parent::__construct();
 		$this->load->model('comments_model');
 		$this->lang->load('comments');
-	}
+        $this->auth->restrict('Comments.Content.View');
+
+    }
 
 	//--------------------------------------------------------------------
 	
     public function index()
     {
 
-        $this->auth->restrict('Comments.Content.Moderate');
-		
+
 		$modules = $this->comments_model->modules_with_comments();
         Template::set('modules', $modules);
 				

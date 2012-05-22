@@ -1,21 +1,22 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 class Migration_Feature_updates extends Migration {
-	
-	public function up() 
+
+    private $permission_array = array(
+        'Comments.Content.View' => 'To view the comment content menu.',
+        'Comments.Content.Moderate' => 'Moderate Comments Content.',
+        'Comments.Settings.View' => 'View comments settings menu.',
+    );
+    public function up()
 	{
 		$prefix = $this->db->dbprefix;
-	
-		$data = array(
-			'name'        => 'Comments.Content.Moderate' ,
-			'description' => 'Manage OOTP Online Settings and Content' 
-		);
-		$this->db->insert("{$prefix}permissions", $data);
-		
-		$permission_id = $this->db->insert_id();
-		
-		$this->db->query("INSERT INTO {$prefix}role_permissions VALUES(1, ".$permission_id.")");
-		
+
+        foreach ($this->permission_array as $name => $description)
+        {
+            $this->db->query("INSERT INTO {$prefix}permissions(name, description) VALUES('".$name."', '".$description."')");
+            // give current role (or administrators if fresh install) full right to manage permissions
+            $this->db->query("INSERT INTO {$prefix}role_permissions VALUES(1,".$this->db->insert_id().")");
+        }
 		$default_settings = "
 			INSERT INTO `{$prefix}settings` (`name`, `module`, `value`) VALUES
 			 ('comments.moderator_level', 'comments', '1'),
@@ -58,16 +59,18 @@ class Migration_Feature_updates extends Migration {
 	public function down() 
 	{
         $prefix = $this->db->dbprefix;
-		
-		$query = $this->db->query("SELECT permission_id FROM {$prefix}permissions WHERE name = 'Comments.Content.Moderate' ");
-		foreach ($query->result_array() as $row)
-		{
-			$permission_id = $row['permission_id'];
-			$this->db->query("DELETE FROM {$prefix}role_permissions WHERE permission_id='$permission_id';");
-		}
-		//delete the permission
-		$this->db->query("DELETE FROM {$prefix}permissions WHERE (name = 'Comments.Content.Moderate')");
-		
+        //delete the permission
+        foreach ($this->permission_array as $name => $description)
+        {
+            $query = $this->db->query("SELECT permission_id FROM {$prefix}permissions WHERE name = '".$name."'");
+            foreach ($query->result_array() as $row)
+            {
+                $permission_id = $row['permission_id'];
+                $this->db->query("DELETE FROM {$prefix}role_permissions WHERE permission_id='$permission_id';");
+            }
+            //delete the role
+            $this->db->query("DELETE FROM {$prefix}permissions WHERE (name = '".$name."')");
+        }
         // remove the keys
 		$this->db->query("DELETE FROM {$prefix}settings WHERE (name = 'comments.moderator_level' 
 			OR name = 'require_approval'

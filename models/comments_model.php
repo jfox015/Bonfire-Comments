@@ -30,6 +30,7 @@ class Comments_model extends BF_Model
 {
 
 	protected $table		= 'comments';
+	protected $table_name		= 'comments';
 	protected $key			= 'id';
 	protected $soft_deletes	= true;
 	protected $date_format	= 'int';

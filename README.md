@@ -1,6 +1,6 @@
 # Bonfire Comments
 
-A module for adding comments threads to various types of Bonfire content.
+A module for adding comments threads to attach various types of [Bonfire Admin Dashboard](https://github.com/ci-bonfire/Bonfire) content.
 
 ## Current Features
 
@@ -14,6 +14,12 @@ A module for adding comments threads to various types of Bonfire content.
 
 - Gravatar support
 - Nested Comment Replies
+
+## Requirements
+
+- PHP 5.3+
+- [Bonfire 0.7+](https://github.com/ci-bonfire/Bonfire)
+
 
 ## Keep Current on the Mod
 
@@ -29,7 +35,7 @@ This mod is a 100% free and open source project. The source code is publicly ava
 
 ## License
 
-Copyright (c) 2012 Jeff Fox.
+Copyright (c) 2012-14 Jeff Fox.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

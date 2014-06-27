@@ -30,3 +30,4 @@ $lang['cm_added_by']				= 'Added By';
 $lang['cm_added_on']				= 'Added On';
 $lang['cm_status']					= 'Status';
 $lang['cm_module']					= 'Module';
+$lang['cm_no_matches_found']					= 'No matches were found for the selected criteria.';

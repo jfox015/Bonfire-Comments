@@ -113,17 +113,19 @@ class Content extends Admin_Controller {
         $this->load->helper('ui/ui');
         $this->load->helper('news/author');
 
-		$this->comments_model->select('comments.*, comments_threads.module, list_comments_status.name as status_name');
-		$this->comments_model->limit($this->limit, $offset)->where($where);
-		$this->comments_model->join('comments_threads','comments_threads.id = comments.thread_id');
-		$this->comments_model->join('list_comments_status','list_comments_status.id = comments.status_id');
-		Template::set('comments', $this->comments_model->find_all());
+        $this->comments_model->select('comments.*, comments_threads.module, list_comments_status.name as status_name');
+        $this->comments_model->limit($this->limit, $offset)->where($where);
+        $this->comments_model->join('comments_threads','comments_threads.id = comments.thread_id', 'left');
+        $this->comments_model->join('list_comments_status','list_comments_status.id = comments.status_id', 'left');
+        $this->comments_model->from('comments');
+        Template::set('comments', $this->comments_model->find_all());
 
         // Pagination
         $this->load->library('pagination');
 
         $this->comments_model->where($where);
         $this->comments_model->join('comments_threads','comments_threads.id = comments.thread_id');
+        $this->comments_model->from('comments');
         $total_comments = $this->comments_model->count_all();
 		
         $this->pager['base_url'] = site_url(SITE_AREA .'/content/comments/index');

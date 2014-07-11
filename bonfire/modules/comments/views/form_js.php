@@ -40,8 +40,7 @@
 
 					// POST comment and get updated comment thread
 					var dataObj = '{"thread_id":<?php echo($thread_id); ?>, "author_id": <?php echo($user_id); ?>, "comment_txt":"' +  escape($("#comment_txt").val()) +'"}';
-					console.log(dataObj);
-                                        $.post("<?php echo site_url('/comments/ajax_add'); ?>", {'items':dataObj, '<?php echo $csrf_token_name; ?>': '<?php echo $csrf_hash; ?>'}, function(data, status)
+					$.post("<?php echo site_url('/comments/ajax_add'); ?>", {'items':dataObj, '<?php echo $csrf_token_name; ?>': '<?php echo $csrf_hash; ?>'}, function(data, status)
 					{
 						switch (status)
 						{

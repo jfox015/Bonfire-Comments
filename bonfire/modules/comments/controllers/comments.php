@@ -62,10 +62,10 @@ class Comments extends Front_Controller {
 	{
 		$error = false;
 		$json_out = array("result"=>array(),"code"=>200,"status"=>"OK");
-		
+                
 		if ($this->input->post('items'))
 		{
-			$items = json_decode($this->input->post('items'));
+                        $items = json_decode($this->input->post('items'));
 			$data = array('thread_id'		=> $items->thread_id,
 						  'comment'	 		=> (isset($items->comment_txt)) ? html_entity_decode(urldecode($items->comment_txt)) : '',
 						  'created_by'	 	=> (isset($items->author_id)) ? $items->author_id : 0,
@@ -99,6 +99,7 @@ class Comments extends Front_Controller {
 				}
 			}
 			$json_out['result']['items'] = $this->resolve_thread_data($this->comments_model->find_all_by('thread_id',$items->thread_id));
+                    
 		}
 		else
 		{
@@ -219,8 +220,8 @@ class Comments extends Front_Controller {
 		}
 		$this->comments_model->where('status_id', 2); // filter only approved
 		$thread = $this->resolve_thread_data($this->comments_model->find_all_by('thread_id',$thread_id));
-		$html_out = $this->load->view('thread_view',array('comments'=>$thread), true);
-		Assets::add_js($this->load->view('thread_view_js',array('thread_id'=>$thread_id), true),'inline');
+		$html_out = $this->load->view('thread_view',array('comments'=>$thread, 'csrf_token_name'=>$this->security->get_csrf_token_name(), 'csrf_hash' => $this->security->get_csrf_hash()), true);
+		Assets::add_js($this->load->view('thread_view_js',array('thread_id'=>$thread_id, 'security'=>$this->security), true),'inline');
 		return $html_out;
 	}
 

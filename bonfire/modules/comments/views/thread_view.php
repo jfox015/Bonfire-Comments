@@ -1,5 +1,5 @@
 <div id="waitload" class="well center" style="display:none;">
-	<img src="<?php echo(TEMPLATE::theme_url('images/ajax-loader.gif'));?>" width="28" height="28" border="0" align="absmiddle" /><br />Operation in progress. Please wait...
+    <img src="<?php echo(Assets::assets_url().('images/ajax-loader.gif'));?>" width="28" height="28" border="0" align="absmiddle" /><br />Operation in progress. Please wait...
 </div>
 <div id="ajaxStatusBox" style="display:none;"><div id="ajaxStatus" class="alert"></div></div>
 <div class="right"><a href="#" class="btn" id="reload_comments"><i class="icon-refresh"></i> Update</a></div>

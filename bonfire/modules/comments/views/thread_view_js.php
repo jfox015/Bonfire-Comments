@@ -19,7 +19,7 @@
 					else 
 					{
 						statusClass = 'alert-success';
-						statusMess = 'Your comment was added successfully.';
+						statusMess = 'Comments loaded.';
 						_draw_comments(data);
 					}
 					break;
@@ -33,7 +33,13 @@
 			}
 			$('div#ajaxStatus').addClass(statusClass);
 			$('div#ajaxStatus').html(statusMess);
-			$('div#ajaxStatusBox').fadeIn("slow",function() { setTimeout('fadeStatus()',5000); });
+			$('div#ajaxStatusBox').fadeIn("slow",function() { 
+                            setTimeout( function() {
+                                $('div#ajaxStatusBox').fadeOut("normal",function() { 
+                                    $('div#ajaxStatusBox').hide(); 
+                                });
+                             }, 5000);
+                         });
 
 			// SHOW ELEMS, but not the form
 			$('div#comments').css('display','block');
@@ -62,5 +68,5 @@
 		}
 	}
 	function fadeStatus() {
-		$('div#ajaxStatusBox').fadeOut("normal",function() { clearTimeout(fader); $('div#ajaxStatusBox').hide(); });
+		
 	}

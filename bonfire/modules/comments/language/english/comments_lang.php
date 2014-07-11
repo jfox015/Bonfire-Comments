@@ -31,3 +31,5 @@ $lang['cm_added_on']				= 'Added On';
 $lang['cm_status']					= 'Status';
 $lang['cm_module']					= 'Module';
 $lang['cm_no_matches_found']					= 'No matches were found for the selected criteria.';
+$lang['cm_add_comment']					= 'Add comments';
+$lang['cm_email']					= 'E-Mail address (Required)';

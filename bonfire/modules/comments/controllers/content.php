@@ -30,9 +30,9 @@ class Content extends Admin_Controller {
 		parent::__construct();
 		$this->load->model('comments_model');
 		$this->lang->load('comments');
-        $this->auth->restrict('Comments.Content.View');
+                $this->auth->restrict('Comments.Content.View');
 
-    }
+        }
 
 	//--------------------------------------------------------------------
 	
@@ -40,7 +40,7 @@ class Content extends Admin_Controller {
     {
 
 
-		$modules = $this->comments_model->modules_with_comments();
+        $modules = $this->comments_model->modules_with_comments();
         Template::set('modules', $modules);
 				
         $offset = $this->uri->segment(5);
@@ -117,7 +117,7 @@ class Content extends Admin_Controller {
         $this->comments_model->limit($this->limit, $offset)->where($where);
         $this->comments_model->join('comments_threads','comments_threads.id = comments.thread_id', 'left');
         $this->comments_model->join('list_comments_status','list_comments_status.id = comments.status_id', 'left');
-        $this->comments_model->from('comments');
+        $this->comments_model->from('comments as c1');
         Template::set('comments', $this->comments_model->find_all());
 
         // Pagination
@@ -125,7 +125,7 @@ class Content extends Admin_Controller {
 
         $this->comments_model->where($where);
         $this->comments_model->join('comments_threads','comments_threads.id = comments.thread_id');
-        $this->comments_model->from('comments');
+        $this->comments_model->from('comments as c2');
         $total_comments = $this->comments_model->count_all();
 		
         $this->pager['base_url'] = site_url(SITE_AREA .'/content/comments/index');
